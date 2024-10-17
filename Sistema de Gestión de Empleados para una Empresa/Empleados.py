@@ -53,7 +53,7 @@ class Empleados():
         else:
             False
     
-    def validar_coorreo(self):
+    def validar_correo(self):
         regex =  r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         if (re.fullmatch(regex, self.correo_usuario)):
             return True
