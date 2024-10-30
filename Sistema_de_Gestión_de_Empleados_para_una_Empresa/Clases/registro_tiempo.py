@@ -1,8 +1,8 @@
 from datetime import datetime
-import Proyectos
+import proyectos
 class Registro_Tiempo():
     def __init__(self, id_registro_tiempo, fecha_registro_tiempo, tareas_registro_tiempo, id_asignacion, id_proyecto, observacion_registro_tiempo):
-        Proyectos.__init__(id_proyecto)
+        proyectos.__init__(id_proyecto)
         self.id_registro_tiempo = id_registro_tiempo
         self.fecha_registro_tiempo = fecha_registro_tiempo
         self.tareas_registro_tiempo = tareas_registro_tiempo

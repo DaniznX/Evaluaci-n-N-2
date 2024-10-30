@@ -5,7 +5,7 @@ estado_usuario = {
     "id": 2, "estado": "Deshabilitado"
 }
 
-dias_prestamo = 5
+dias_festivos = 13
 
 festivos = {
     datetime(datetime.now().year, 1, 1),

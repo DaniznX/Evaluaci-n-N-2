@@ -1,13 +1,13 @@
-import Tipo_Empleado
+import tipo_empleado
 import re
 import bcrypt
 import hashlib
-from Ruts import Rut
+import Ruts
 
 class Empleados():
     def __init__(self, id_empleados, nombre_empleados, direccion_empleados, telefono_empleados, correo_empleados, fecha_inicio, salario_empleados, id_tipo_empleado, rut_empleados, contraseña_empleados):
-        Tipo_Empleado.__init__(id_tipo_empleado)
-        Rut.__init__(rut_empleados)
+        tipo_empleado.__init__(id_tipo_empleado)
+        Ruts.__init__(rut_empleados)
         self.id_empleados = id_empleados
         self.nombre_empleados = nombre_empleados
         self.direccion_empleados =  direccion_empleados
@@ -18,7 +18,7 @@ class Empleados():
         self.contraseña_empleados = contraseña_empleados
         
     def validar_rut_empleados(self):
-        return Rut.is_valid_rut(self.rut_empleados)
+        return Ruts.is_valid_rut(self.rut_empleados)
         
     def validar_contrasena(self):
         regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
