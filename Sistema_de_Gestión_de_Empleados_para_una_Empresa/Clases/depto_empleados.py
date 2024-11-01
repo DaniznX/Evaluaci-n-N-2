@@ -1,5 +1,4 @@
-import empleados
-import depto
+from Clases import empleados, depto
 from Ruts import rut
 class Departamento_empleados():
     def __init__(self, id_departamento_empleados, id_departamento, id_empleados):

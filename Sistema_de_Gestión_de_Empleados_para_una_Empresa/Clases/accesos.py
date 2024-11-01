@@ -1,4 +1,4 @@
-import empleados
+from Clases import empleados
 from datetime import datetime, timedelta
 from Auxiliares import constantes
 class accesos():

@@ -1,8 +1,12 @@
 import mysql.connector
-from Clases import tipo_empleado, empleados, depto, proyectos
+from Clases.tipo_empleado import tipo_empleado
+from Clases.empleados import Empleados  
+from Clases.depto import Depto
+from Clases.proyectos import Proyecto
+
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'Clases'))
+
 
 
 
@@ -10,8 +14,8 @@ def conectar_bd():  #conexión con la base de datos
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
-        database="db"
+        password="",
+        database="ddl"
     )
 
 
@@ -28,7 +32,7 @@ def agregar_empleado():     #Funciones para realizar operaciones en la base de d
     rut = input("Ingrese el RUT del empleado: ")
     contrasena = input("Ingrese la contraseña del empleado: ")
 
-    nuevo_empleado = empleados(None, nombre, direccion, telefono, correo, fecha_inicio, salario, id_tipo, rut, contrasena)
+    nuevo_empleado = Empleados(None, nombre, direccion, telefono, correo, fecha_inicio, salario, id_tipo, rut, contrasena)
     
     
     query = """
@@ -49,7 +53,7 @@ def agregar_departamento():
     telefono = int(input("Ingrese el teléfono del departamento: "))
     id_empleado = int(input("Ingrese el ID del empleado a cargo: "))
 
-    nuevo_departamento = depto(None, nombre, telefono, id_empleado)
+    nuevo_departamento = Depto(None, nombre, telefono, id_empleado)
 
     query = """
         INSERT INTO departamento (NOMBRE, TELEFONO, ID_EMPLEADO) 

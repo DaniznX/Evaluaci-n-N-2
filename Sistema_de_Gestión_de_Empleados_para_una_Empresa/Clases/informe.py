@@ -1,4 +1,4 @@
-import empleados
+from Clases import empleados
 class Informe():
     def __init__(self, id_informe, nombre_informe, fecha_creacion_informe, id_empleado, ubicacion_informe):
         empleados.__init__(id_empleado)
