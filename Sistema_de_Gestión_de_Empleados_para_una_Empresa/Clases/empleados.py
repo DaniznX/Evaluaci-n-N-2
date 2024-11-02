@@ -1,4 +1,4 @@
-from Clases.tipo_empleado import tipo_empleado
+from Clases.tipo_empleado import tipo_empleado 
 from Ruts.rut import rut_chile, rut_internacional
 import re
 import bcrypt
@@ -19,42 +19,34 @@ class Empleados:
         self.correo_empleados = correo_empleados
         self.fecha_inicio = fecha_inicio
         self.salario_empleados = salario_empleados
-        self.contraseña_empleados = contrasena_empleados
+        self.contrasena_empleados = self.hashear_contrasena(contrasena_empleados) if contrasena_empleados else None
+
 
     def validar_rut_empleados(self):
         return self.rut.validar_rut()
 
-    def validar_contrasena(self):
+    def validar_contrasena(self):   #Retorna True si la contraseña cumple con los requisitos, False si no
         regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-        if re.match(regex, self.contraseña_empleados):
-            return "La contraseña es válida"
-        else:
-            return "La contraseña no es válida"
+        return bool(re.match(regex, self.contrasena_empleados))
 
-    def hash_verificar_contrasena(self, contrasena):
+    def hash_verificar_contrasena(self, contrasena):    #Hashea la contraseña con SHA-256 y bcrypt
         sha256_hash = hashlib.sha256(contrasena.encode('utf-8')).hexdigest()
         sha256_bytes = sha256_hash.encode('utf-8')
         bcrypt_hashed = bcrypt.hashpw(sha256_bytes, bcrypt.gensalt())
         return bcrypt_hashed
 
-    def verificar_contrasena(self, contrasena, hashed):
+    def verificar_contrasena(self, contrasena, hashed): #Verifica si la contraseña proporcionada coincide con la hasheada
         sha256_hash = hashlib.sha256(contrasena.encode('utf-8')).hexdigest()
         sha256_bytes = sha256_hash.encode('utf-8')
         return bcrypt.checkpw(sha256_bytes, hashed)
 
-    def hashear_contrasena(self):
-        hashed_contrasena = self.hash_verificar_contrasena(self.contraseña_empleados)
+    def hashear_contrasena(self, contrasena):   #Genera el hash de la contraseña al crear el objeto
+        hashed_contrasena = self.hash_verificar_contrasena(contrasena)
         print(f"Contraseña hasheada con SHA-256 y bcrypt: {hashed_contrasena}")
         return hashed_contrasena
 
-    def proceso_verificacion(self, contrasena):
-        hashed_contrasena = self.hashear_contrasena()
-        return self.verificar_contrasena(contrasena, hashed_contrasena)
-
-    def validar_correo(self):
+    def validar_correo(self):  #Valida si el correo tiene el formato adecuado
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-        if re.fullmatch(regex, self.correo_empleados):
-            return True
-        else:
-            return False
+        return bool(re.fullmatch(regex, self.correo_empleados))
+
 

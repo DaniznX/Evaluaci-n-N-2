@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-10-2024 a las 17:01:57
+-- Tiempo de generación: 02-11-2024 a las 02:12:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,6 +46,13 @@ CREATE TABLE `departamento` (
   `ID_EMPLEADO` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`ID`, `NOMBRE`, `TELEFONO`, `ID_EMPLEADO`) VALUES
+(0, 'IT', 4502145, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -76,6 +83,15 @@ CREATE TABLE `empleados` (
   `RUT` int(11) NOT NULL,
   `CONTRASENA` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` (`ID`, `NOMBRE`, `DIRECCION`, `TELEFONO`, `CORREO`, `FECHA_INICIO`, `SALARIO`, `ID_TIPO`, `RUT`, `CONTRASENA`) VALUES
+(1, 'Leandro Filun', 'Calle 13', 2147483647, 'lea@gmail.com', '2021-12-12', 1000000, 1, 20645815, 'lf12'),
+(2, 'Daniel Castillo', 'Luis Durand 1101', 2147483647, 'dani@gmail.com', '2023-12-12', 2000000, 2, 23348657, 'danixd12'),
+(3, 'Felipe Pena', 'Carahue Campo', 2147483647, 'felipe@gmail.com', '2021-12-12', 1500000, 3, 22867435, 'pipe12');
 
 -- --------------------------------------------------------
 
@@ -262,6 +278,16 @@ ALTER TABLE `rol`
 --
 ALTER TABLE `tipoempleado`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

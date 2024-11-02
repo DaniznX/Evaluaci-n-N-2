@@ -3,14 +3,13 @@ from Clases.tipo_empleado import tipo_empleado
 from Clases.empleados import Empleados  
 from Clases.depto import Depto
 from Clases.proyectos import Proyecto
-
-import sys
+from colorama import Fore, Style, init
 import os
 
 
+init()
 
-
-def conectar_bd():  #conexión con la base de datos
+def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
         user="root",
@@ -18,8 +17,20 @@ def conectar_bd():  #conexión con la base de datos
         database="ddl"
     )
 
+def limpiar_pantalla():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-def agregar_empleado():     #Funciones para realizar operaciones en la base de datos
+def mostrar_menu():
+    limpiar_pantalla()
+    print(Fore.CYAN + "="*30)
+    print("   SISTEMA DE GESTIÓN DE EMPLEADOS")
+    print("="*30 + Style.RESET_ALL)
+    print("1. Agregar empleado")
+    print("2. Agregar departamento")
+    print("3. Salir")
+    print(Fore.CYAN + "="*30 + Style.RESET_ALL)
+
+def agregar_empleado():
     conexion = conectar_bd()
     cursor = conexion.cursor()
     nombre = input("Ingrese el nombre del empleado: ")
@@ -33,20 +44,27 @@ def agregar_empleado():     #Funciones para realizar operaciones en la base de d
     contrasena = input("Ingrese la contraseña del empleado: ")
 
     nuevo_empleado = Empleados(None, nombre, direccion, telefono, correo, fecha_inicio, salario, id_tipo, rut, contrasena)
-    
-    
-    query = """
-        INSERT INTO empleados (NOMBRE, DIRECCION, TELEFONO, CORREO, FECHA_INICIO, SALARIO, ID_TIPO, RUT, CONTRASENA) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    valores = (nombre, direccion, telefono, correo, fecha_inicio, salario, id_tipo, rut, contrasena)
-    cursor.execute(query, valores)
-    conexion.commit()
-    cursor.close()
-    conexion.close()
-    print("Empleado agregado con éxito.")
+
+    try:
+        query = """
+            INSERT INTO empleados (NOMBRE, DIRECCION, TELEFONO, CORREO, FECHA_INICIO, SALARIO, ID_TIPO, RUT, CONTRASENA) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        valores = (nombre, direccion, telefono, correo, fecha_inicio, salario, id_tipo, rut, contrasena)
+        cursor.execute(query, valores)
+        conexion.commit()
+        print(Fore.GREEN + "Empleado agregado con éxito." + Style.RESET_ALL)
+    except mysql.connector.Error as err:
+        print(Fore.RED + f"Error al agregar empleado: {err}" + Style.RESET_ALL)
+    finally:
+        cursor.close()
+        conexion.close()
+        input(Fore.YELLOW + "Presione Enter para continuar..." + Style.RESET_ALL)
+
 
 def agregar_departamento():
+    limpiar_pantalla()
+    print(Fore.GREEN + "AGREGAR NUEVO DEPARTAMENTO" + Style.RESET_ALL)
     conexion = conectar_bd()
     cursor = conexion.cursor()
     nombre = input("Ingrese el nombre del departamento: ")
@@ -56,33 +74,38 @@ def agregar_departamento():
     nuevo_departamento = Depto(None, nombre, telefono, id_empleado)
 
     query = """
-        INSERT INTO departamento (NOMBRE, TELEFONO, ID_EMPLEADO) 
+        INSERT INTO departamento (nombre, telefono, id_empleado) 
         VALUES (%s, %s, %s)
     """
     valores = (nombre, telefono, id_empleado)
-    cursor.execute(query, valores)
-    conexion.commit()
-    cursor.close()
-    conexion.close()
-    print("Departamento agregado con éxito.")
+    
+    try:
+        cursor.execute(query, valores)
+        conexion.commit()
+        print(Fore.GREEN + "Departamento agregado con éxito." + Style.RESET_ALL)
+    except mysql.connector.Error as err:
+        print(Fore.RED + f"Error al agregar departamento: {err}" + Style.RESET_ALL)
+    finally:
+        cursor.close()
+        conexion.close()
+    
+    input(Fore.YELLOW + "Presione Enter para continuar..." + Style.RESET_ALL)
 
 def main():
     while True:
-        print("\nMenu de opciones")
-        print("1. Agregar empleado")
-        print("2. Agregar departamento")
-        print("3. Salir")
-        opcion = input("Seleccione una opción: ")
+        mostrar_menu()
+        opcion = input(Fore.YELLOW + "Seleccione una opción: " + Style.RESET_ALL)
 
         if opcion == '1':
             agregar_empleado()
         elif opcion == '2':
             agregar_departamento()
         elif opcion == '3':
-            print("Saliendo del programa.")
+            print(Fore.MAGENTA + "Gracias por usar el sistema. ¡Hasta luego!" + Style.RESET_ALL)
             break
         else:
-            print("Opción inválida. Intente de nuevo.")
+            print(Fore.RED + "Opción inválida. Intente de nuevo." + Style.RESET_ALL)
+            input(Fore.YELLOW + "Presione Enter para continuar..." + Style.RESET_ALL)
 
 if __name__ == "__main__":
     main()
